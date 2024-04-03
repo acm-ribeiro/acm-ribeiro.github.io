@@ -26,7 +26,7 @@
 
 .github span { background-color: #000; }
 
-email { font-size: 14px; font-family: "Reddit Mono"; }
+email { font-size: 14px; color: #51168b !important; font-family: "Ubuntu Mono"; }
 
 .icon-button i { background: none; color: white; height: 3.6rem; left: 0; line-height: 3.6rem; position: absolute; top: 0; -webkit-transition: all 0.3s; -moz-transition: all 0.3s; -o-transition: all 0.3s; transition: all 0.3s; width: 3.6rem; z-index: 10; }
 
@@ -110,7 +110,7 @@ th { color: #444; }
   dt { color: #763daf; } }
 img { max-width: 100%; }
 
-header { width: 250px; float: left; position: fixed; -webkit-font-smoothing: subpixel-antialiased; padding-top: 4.0em; left: 17.0em; text-align: center; }
+header { width: 270px; float: left; position: fixed; -webkit-font-smoothing: subpixel-antialiased; padding-top: 4.0em; left: 17.0em; text-align: center; }
 
 header ul { list-style: none; height: 40px; padding: 0; background: #f4f4f4; border-radius: 5px; border: 1px solid #e0e0e0; width: 270px; }
 

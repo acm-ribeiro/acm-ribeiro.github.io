@@ -5,7 +5,7 @@ layout: homepage
 ### About Me
 I am a Phd Student at NOVA School of Science and Technology working towards automating the 
 microservice testing process, in a black-box setting, leveraging their API specifications.
-I am advised by Professor [Carla Ferreira](http://www-ctp.di.fct.unl.pt/~cf/). My main interests include Software Testing & Verification, specially in a black-box scenario. 
+I am being advised by Professor [Carla Ferreira](http://www-ctp.di.fct.unl.pt/~cf/). My main interests include Software Testing & Verification, specially in a black-box scenario. 
 
 
 ### News
@@ -25,7 +25,7 @@ I am advised by Professor [Carla Ferreira](http://www-ctp.di.fct.unl.pt/~cf/). M
   
 - **[Mar. 2021]** Started the Doctoral Programme in Computer Science @ NOVA FCT. 
 - **[Feb. 2021]** Finished my Master's in Computer Science @ NOVA FCT! <span style="font-size: 11px;">&#129395;</span>
-- **[Mar. 2018]** Started my internship at WebDisplay Consulting, Lda.
+- **[Mar. 2018]** Started a 6-month long internship at WebDisplay Consulting, Lda.
 
 
 ### Keywords 
