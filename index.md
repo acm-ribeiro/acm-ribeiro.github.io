@@ -10,6 +10,9 @@ I am advised by Professor [Carla Ferreira](http://www-ctp.di.fct.unl.pt/~cf/). M
 
 ### News
 
+- **[Apr. 2024]** Student volunteer @ ICSE 24, CCB, Lisbon.  
+- **[Apr. 2024]** Student volunteer @ EXPO FCT 24, NOVA FCT.  
+
 - **[Sep. 2023]** Attended the DARE Summer School @ Vrije Universiteit, Brussels - Belgium.
 - **[Sep. 2023]** Started a position as a Teaching Assistant of the IP course @ NOVA FCT. 
 - **[Mar. 2023]** Started a position as a Teaching Assistant of the ICE-D course @ NOVA FCT. 
@@ -17,17 +20,19 @@ I am advised by Professor [Carla Ferreira](http://www-ctp.di.fct.unl.pt/~cf/). M
   
 - **[Jul. 2022]** Education volunteer @ Ciência VIVA, NOVA FCT. 
 - **[Apr. 2022]** Research Skills and Development course from NOVA Doctoral School @ Arrábida Monastery.
-- **[Apr. 2022]** Student volunteer @ EXPO FCT, NOVA FCT.  
+- **[Apr. 2022]** Student volunteer @ EXPO FCT 23, NOVA FCT.  
 - **[Mar. 2022]** Started a position as a Teaching Assistant of the ICE-B course @ NOVA FCT. 
   
 - **[Mar. 2021]** Started the Doctoral Programme in Computer Science @ NOVA FCT. 
-- **[Feb. 2021]** Finished my Master's in Computer Science @ NOVA FCT! :sparkles:
+- **[Feb. 2021]** Finished my Master's in Computer Science @ NOVA FCT! <span style="font-size: 11px;">&#129395;</span>
 - **[Mar. 2018]** Started my internship at WebDisplay Consulting, Lda.
 
 
 ### Keywords 
 microservices, black-box testing, REST, RESTful API, specification-based testing, 
 test-case generation, automated testing, design by contract, verification, TLA+
+
+
 
 <!--- 
 {% include_relative _includes/publications.md %}

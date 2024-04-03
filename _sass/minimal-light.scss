@@ -215,7 +215,6 @@ papertitle {
       }
 
       .image.avatar img {
-        //border-radius: 100%;
         width: 70%;
         padding: 10px;
         // border: 1px solid #ddd;
@@ -356,11 +355,12 @@ img {
 }
 
 header {
-  width:232px;
+  width:250px;
   float:left;
   position:fixed;
   -webkit-font-smoothing:subpixel-antialiased;
   padding-top:4.0em;
+  left: 17.0em;
   text-align:center
 }
 
@@ -432,7 +432,7 @@ header ul a strong {
 }
 
 section {
-  width:650px;
+  width:750px;
   float:right;
   padding-top:4.0em;
   padding-bottom:50px;
@@ -499,7 +499,6 @@ footer {
 
 
    .image.avatar img {
-        border-radius: 100%;
         width: 117px;
         padding:20px;
       }
@@ -555,7 +554,6 @@ footer {
   }
 
   .image.avatar img {
-      border-radius: 100%;
       width: 95px;
       padding:20px;
   }
