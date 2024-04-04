@@ -11,6 +11,7 @@ cv_link: assets/files/curriculum_vitae.pdf
 github_link: https://github.com/acm-ribeiro
 linkedin: https://www.linkedin.com/in/acm-ribeiro/
 #twitter: https://twitter.com/
+_link:
 
 # Images (e.g., your profile picture and your website's favicon) 
 # "favicon" and "favicon_dark" are used for the light and dark modes, respectively. 

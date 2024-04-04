@@ -1,11 +1,18 @@
 ---
 layout: homepage
 ---
+<div style="font-size: larger; float:top; margin-bottom: 1.0em;">
+    <a>Brain Dumps</a>
+    <a style="margin-left:2.0em;" href="media.html">Media</a>
+</div>
+---
 
 ### About Me
 I am a Phd Student at NOVA School of Science and Technology working towards automating the 
 microservice testing process, in a black-box setting, leveraging their API specifications.
-I am being advised by Professor [Carla Ferreira](http://www-ctp.di.fct.unl.pt/~cf/). My main interests include Software Testing & Verification, specially in a black-box scenario. 
+I am being advised by Professor [Carla Ferreira](http://www-ctp.di.fct.unl.pt/~cf/). 
+
+My main interests include Software Testing & Verification, specially in a black-box scenario. 
 
 
 ### News

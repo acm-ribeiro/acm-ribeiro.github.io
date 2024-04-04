@@ -208,11 +208,14 @@ papertitle {
     }
 
     .image.avatar {
-      border-radius: 100%;
+      //border-radius: 100%;
     }
 
       .image.avatar:before {
         display: none;
+      }
+      .image.avatar:hover {
+        background-color: transparent;
       }
 
       .image.avatar img {
@@ -275,7 +278,8 @@ a {
 }
 
 a:hover {
-  color:#763daf;
+  color:white;
+  background-color: #763daf;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -361,7 +365,7 @@ header {
   position:fixed;
   -webkit-font-smoothing:subpixel-antialiased;
   padding-top:4.0em;
-  left: 17.0em;
+  left: 10.0em;
   text-align:center
 }
 
