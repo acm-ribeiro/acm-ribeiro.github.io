@@ -1,9 +1,10 @@
 ---
 layout: homepage
 ---
-<div style="font-size: larger; float:top; margin-bottom: 1.0em;">
-    <a>Brain Dumps</a>
-    <a style="margin-left:2.0em; color: white; background-color: #763daf;" href="media.html">Media</a>
+<div style="font-size: x-large; float:top; margin-bottom: 1.0em;">
+    <a href="index.html">Home</a>
+    <a style="margin-left:2.0em;">Brain Dumps</a>
+    <a style="margin-left:2.0em; text-decoration: underline;" href="media.html">Media</a>
 </div>
 ---
 
@@ -12,3 +13,6 @@ layout: homepage
 
 ## Research Skills & Development Course 2023 @ Arrábida Monastery, Sesimbra -- Portugal
 <img src="assets/img/RSD23.jpeg" alt="RSD23">
+
+## EXPO FCT 2023 - Open Day @ NOVA FCT, Caparica -- Portugal 
+<img src="assets/img/expo23.jpg" alt="EXPO23">
