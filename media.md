@@ -14,6 +14,10 @@ layout: homepage
 ## EXPO FCT 2024 - Open Day @ NOVA FCT, Caparica -- Portugal 
 <img src="assets/img/ExpoFCT2024.jpg" alt="EXPO24">
 
+## EXPO FCT 2024 - Coding Fest, Caparica -- Portugal 
+<img src="assets/img/expoFCT24_1.jpg" alt="EXPO24">
+
+
 ---
 
 ## First Summer School on Distributed and Replicated Environments 2023 @ Vrije Universiteit, Brussels -- Belgium
