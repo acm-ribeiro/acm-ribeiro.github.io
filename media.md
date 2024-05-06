@@ -16,6 +16,7 @@ layout: homepage
 
 ## EXPO FCT 2024 - Coding Fest, Caparica -- Portugal 
 <img src="assets/img/expoFCT24_1.jpg" alt="EXPO24">
+From left to right: Carla Ferreira, Pedro Fouto, and Ana Ribeiro. 
 
 
 ---
