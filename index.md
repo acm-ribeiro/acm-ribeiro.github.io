@@ -20,7 +20,8 @@ My main interests include Software Testing & Verification, specially in a black-
 
 - **[Apr. 2024]** Student volunteer @ ICSE 24, CCB, Lisbon.  
 - **[Apr. 2024]** CodingFest activity organiser @ EXPO FCT 24, NOVA FCT.  
-
+- **[Mar. 2024]** Started a position as a Teaching Assistant of the POO course @ NOVA FCT. 
+  
 - **[Sep. 2023]** Attended the DARE Summer School @ Vrije Universiteit, Brussels - Belgium.
 - **[Sep. 2023]** Started a position as a Teaching Assistant of the IP course @ NOVA FCT. 
 - **[Mar. 2023]** Started a position as a Teaching Assistant of the ICE-D course @ NOVA FCT. 
