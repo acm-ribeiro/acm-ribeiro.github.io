@@ -10,6 +10,11 @@ layout: homepage
 
 ---
 
+## ISCE 24 @ CCB, Belém -- Portugal 
+<img src="assets/img/ICSE24_1.JPG" alt="ICSE24">
+From left to right: Marko Ivanković (Google; University of Passau), Philipp Straubinger (University of Passau), and Ana Ribeiro. 
+<p style="text-align: center;">You may think we were discussing an important topic. We were talking about pink water bottles.</p> 
+
 
 ## EXPO FCT 2024 - Open Day @ NOVA FCT, Caparica -- Portugal 
 <img src="assets/img/ExpoFCT2024.jpg" alt="EXPO24">
