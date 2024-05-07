@@ -15,14 +15,14 @@ layout: homepage
 From left to right: Marko Ivanković (Google; University of Passau), Philipp Straubinger (University of Passau), and Ana Ribeiro. 
 <p style="text-align: center;">You may think we were discussing an important topic. We were talking about pink water bottles.</p> 
 
-
-## EXPO FCT 2024 - Open Day @ NOVA FCT, Caparica -- Portugal 
-<img src="assets/img/ExpoFCT2024.jpg" alt="EXPO24">
+---
 
 ## EXPO FCT 2024 - Coding Fest, Caparica -- Portugal 
 <img src="assets/img/expoFCT24_1.jpg" alt="EXPO24">
 From left to right: Carla Ferreira, Pedro Fouto, and Ana Ribeiro. 
 
+## EXPO FCT 2024 - Open Day @ NOVA FCT, Caparica -- Portugal 
+<img src="assets/img/ExpoFCT2024.jpg" alt="EXPO24">
 
 ---
 

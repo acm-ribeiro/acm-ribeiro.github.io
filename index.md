@@ -18,7 +18,7 @@ My main interests include Software Testing & Verification, specially in a black-
 
 ### News
 
-- **[Apr. 2024]** Student volunteer @ ICSE 24, CCB, Lisbon.  
+- **[Apr. 2024]** Student volunteer @ 46th International Conference on Software Engineering (ICSE) @ Centro Cultural de Belém, Lisbon - Portugal.  
 - **[Apr. 2024]** CodingFest activity organiser @ EXPO FCT 24, NOVA FCT.  
 - **[Mar. 2024]** Started a position as a Teaching Assistant of the POO course @ NOVA FCT. 
   
