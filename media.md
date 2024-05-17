@@ -4,7 +4,7 @@ layout: homepage
 
 <div style="font-size: x-large; float:top; margin-bottom: 1.0em;">
     <a href="index.html">Home</a>
-    <a style="margin-left:2.0em;">Brain Dumps</a>
+    <a style="margin-left:2.0em;" href="braindumps.html">Brain Dumps</a>
     <a style="margin-left:2.0em; text-decoration: underline;" href="media.html">Media</a>
 </div>
 

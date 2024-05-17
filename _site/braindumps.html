@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <title>Ana Ribeiro | NOVA School of Science & Technology, Lisbon</title>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Ana Ribeiro's personal webpage.">
+    
+    
+
+    <link rel="icon" media="(prefers-color-scheme:dark)" href="./assets/img/bee.svg" type="image/png" />
+    <link rel="icon" media="(prefers-color-scheme:light)" href="./assets/img/bee.svg" type="image/png" />
+    <script src="./assets/js/favicon-switcher.js" type="application/javascript"></script>
+
+    <link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.6/css/academicons.min.css integrity="sha256-uFVgMKfistnJAfoCUQigIl+JfUaP47GrRKjf6CTPVmw=" crossorigin=anonymous>
+    <link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css integrity="sha256-+N4/V/SbAFiW1MPBCXnfnP9QSN3+Keu+NlB+0ev/YKQ=" crossorigin=anonymous>
+
+    
+    <link rel="stylesheet" href="./assets/css/reddit_mono.css">
+    
+
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="stylesheet" href="./assets/css/publications.css">
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        
+        
+        <a class="image avatar"><img src="./assets/img/me.jpg" alt="avatar" /></a>
+        
+
+        <h1>Ana Ribeiro</h1>
+
+        
+        <position style="font-size:1.10rem;">Ph.D. Student</position>
+        <br>
+        
+        
+        <a href="" rel="noopener"><autocolor>NOVA School of Science & Technology, Lisbon</autocolor></a>
+        <br>
+        
+        
+        <email>acm.ribeiro (at) fct.unl.pt</email>
+        
+
+        <br>
+        <br>
+        <div class="social-icons">
+        
+
+        
+        <a style="margin: 0 5px 0 0" href="assets/files/curriculum_vitae.pdf">
+          <i class="ai ai-cv" style="font-size:1.3rem;"></i>
+        </a>
+        
+
+        
+        <a style="margin: 0 5px 0 0" href="https://github.com/acm-ribeiro">
+          <i class="fab fa-github"></i>
+        </a>
+        
+
+        
+        <a style="margin: 0 5px 0 0" href="https://www.linkedin.com/in/acm-ribeiro/">
+          <i class="fab fa-linkedin"></i>
+        </a>
+        
+
+        
+        </div>
+        <br>
+
+      </header>
+      <section>
+
+      <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+
+<div style="font-size: x-large; float:top; margin-bottom: 1.0em;">
+    <a href="index.html">Home</a>
+    <a style="margin-left:2.0em; text-decoration: underline;" href="braindumps.html">Brain Dumps</a>
+    <a style="margin-left:2.0em;" href="media.html">Media</a>
+</div>
+
+<hr />
+
+<p>Recently, I have been dabbling a bit with graph algorithms to solve a very specific problem, and a 
+professor came up with the idea to use Maximum Flow algorithms. These are my notes on Dinic’s algorithm, adapted from:</p>
+
+<p>[1] Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest, and Clifford Stein. 2009. <a href="https://dl.acm.org/doi/10.5555/1614191">Introduction to Algorithms</a>, Third Edition (3rd. ed.). The MIT Press</p>
+
+<p>[2] <a href="https://youtu.be/M6cm8UeeziI">Dinic’s Algorithm</a> by William Fiset.</p>
+
+<h1 id="maximum-flow">Maximum-Flow</h1>
+
+<p>In the maximum-flow problem we wish to compute the greatest rate at which we can ship material from the source to the sink without violating any capacity constraints.</p>
+
+<h2 id="flow-networks-and-flows">Flow networks and flows</h2>
+
+<p>A flow network is a directed graph in which the edges have a non-negative capacity. We distinguish two vertices in a flow network: the <em>source</em> \(s\) and the <em>sink</em> \(t\). For each vertex the flow network contains a path from the source to the sink. The graph is connected and all vertices other than \(s\) have at least on entering edge.</p>
+
+<p>More formally, let \(G = (V,\;E)\) be a flow network with a capacity function \(c\). Let \(s\) be the source of the network, and let \(t\) be the sink. A <em>flow</em> in \(G\) is a real-valued function \(f : V \times V \rightarrow \mathbb{R}\) that satisfies the following two properties:</p>
+
+<ol>
+  <li>
+    <p>Capacity Constraint: for all \(u, v \in V\) we require \(0 \leq f(u, v) \leq c(u, v)\), i.e., the flow from one vertex to another must be nonnegative and must not exceed the given capacity.</p>
+  </li>
+  <li>
+    <p>Flow Conservation: for all \(u \in V \setminus \{s, t\}\) we require \(\sum_{v \in V} f(v, u) = \sum_{v \in V} f(u,v)\), i.e., the total flow into a vertex other than the source or sink must equal the total flow out of that vertex — informally, “flow in equals flow out.”</p>
+  </li>
+</ol>
+
+<p>When \((u, v) \notin E\) there can be no flow from \(u\) to \(v\) and \(f(u,v) = 0\).</p>
+
+<p>If \(E\) contains an edge \((u, v)\) then there is no edge \((v, u)\) in the reverse direction (antiparallel edges).</p>
+
+<p>This is solved by choosing one of the two antiparallel edges, in this case  and s\((v_1, v_2)\), and split it by adding a new vertex \(v'\) and replacing edge \((v_1, v_2)\) with the pair of edges \((v_1, v')\) and \((v', v_2)\). The capacity of both new edges is set to the capacity of the original edge.</p>
+
+<p>The resulting network satisfies the property that if an edge is in the network, the reverse edge is not.</p>
+
+<div style="text-align: center;">
+    <img style="margin-right:5%;" src="assets/img/braindumps-flow/1.png" alt="1" />
+    <img style="margin-left:5%;" src="assets/img/braindumps-flow/2.png" alt="2" />
+</div>
+
+<hr />
+
+<h2 id="networks-with-multiple-sources-and-sinks">Networks with multiple sources and sinks</h2>
+
+<p>We can reduce the problem of determining a maximum flow in a network with multiple sources and multiple sinks to an ordinary maximum-flow problem.</p>
+
+<p>The following figure shows how to convert a multiple source and multiple sink network to an ordinary flow network. This is done by adding:</p>
+
+<ul>
+  <li>a <em>supersource</em> \(s\) with a directed edge \((s, s_i)\) having capacity \(c(s, s_i) = \infty\) or each \(i = 1, 2, ..., n\).</li>
+  <li>and a <em>supersink</em> \(t\) with a directed edge \((t_i, t)\) having capacity \(c(t_i, t) = \infty\) for each \(i = 1, 2, ..., n\).</li>
+</ul>
+
+<p>Intuitively, any flow in the network in (a) corresponds to a flow in the network in (b), and vice-versa.</p>
+
+<div style="text-align: center; margin-bottom: 10%;">
+    <img style="max-width: 80%;" src="assets/img/braindumps-flow/3.png" alt="3" />
+</div>
+
+<h2 id="maximum-flow---dinics-algorithm">Maximum Flow \(-\) Dinic’s Algorithm</h2>
+
+<p>Dinic’s algorithm is a strongly polynomial maximum flow algorithm with a runtime of \(O(\mid V\mid ^2.E)\). The main idea behind this algorithm is to guide augmenting paths from \(s \rightarrow t\) using a <em>level graph</em>, greatly reducing the runtime.</p>
+
+<p>The way the algorithm determines which edges make progress towards the sink and which do not is by building a level graph. The levels of the graph are those obtained by doing a BFS from the source.</p>
+
+<p>Furthermore, an edge is only part of the level graph if it makes progress towards the sink. That is, the edge must go from a node at level  \(L\)  to another edge at level  \(L + 1\). This requirement prunes backwards edges and “sideways” edges (grey edges in the figure).</p>
+
+<p>Backwards and sideways edges are omitted from the level graph. The goal is to go from the source to the sink as quick as possible.</p>
+
+<h3 id="steps">Steps</h3>
+
+<ol>
+  <li>Construct a level graph by doing a BFS from the source to label all the levels of the current flow graph.</li>
+  <li>If the sink was never reached while building the level graph, then stop and return the maximum flow.</li>
+  <li>Using only valid edges in the level graph, do multiple DFSs from \(s \rightarrow t\) until a <strong>blocking flow</strong> is reached, and sum over the bottleneck values of all the augmenting paths found to calculate the maximum flow.</li>
+  <li>Repeat steps 1 - 3.</li>
+</ol>
+
+<div style="min-height: 4em; border: 2px solid #b171f5; padding: 1em; text-align: justify;">
+    <p style="width: 45%; float:left;">
+        <a style="font-weight:bold;">Blocking Flow</a>
+        A flow in which every possible augmenting path from the source to the sink is filled to capacity.
+    </p>
+    <p style="margin-left: 0.5em; width: 45%; float:right;">
+        <a style="font-weight:bold;">Augmenting Path</a>
+        A path from the source to the sink along which additional flow can be sent, increasing the total flow in the network. 
+    </p>
+</div>
+
+<hr />
+<p style="text-align:center;">
+    Once every augmenting path is filled to capacity, the flow is said to be blocked, hence the term "blocking flow.” 
+</p>
+
+<h3 id="example-finding-the-maximum-flow-of-the-following-graph-with-dinics-algorithm">Example: Finding the maximum flow of the following graph with <a href="https://www.youtube.com/watch?v=M6cm8UeeziI&amp;t=212s">Dinic’s Algorithm</a></h3>
+
+<div style="text-align: center; margin-bottom: 10%;">
+    <img style="max-width: 80%;" src="assets/img/braindumps-flow/4.png" alt="Dinic's Example" />
+</div>
+
+<hr />
+
+<h4 id="building-the-level-graph-with-a-dfs-ie-saving-the-each-nodes-minimum-distance-to-the-source-node">Building the level graph with a DFS (i.e., saving the each node’s minimum distance to the source node)</h4>
+
+<div style="min-height: 21em;">
+    <img style="max-width: 70%; float:left;" src="assets/img/braindumps-flow/5.png" />
+    <div style="margin-top: 5em; float:right;">
+        <table border="2.5px">
+            <tbody>
+                <tr>
+                    <td style="width: 52px;">&nbsp;A: 1</td>
+                    <td style="width: 52px;">&nbsp;D: 1</td>
+                    <td style="width: 52px;">&nbsp;G: 1</td>
+                </tr>
+                <tr>
+                    <td style="width: 52px;">&nbsp;B: 2</td>
+                    <td style="width: 52px;">&nbsp;E: 2</td>
+                    <td style="width: 52px;">&nbsp;H: 2</td>
+                </tr>
+                <tr>
+                    <td style="width: 52px;">&nbsp;C: 3</td>
+                    <td style="width: 52px;">&nbsp;F: 3</td>
+                    <td style="width: 52px;">&nbsp;I: 3</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<p>This is not just a regular BFS: even when the node was previously visited, if the path progresses towards the sink, it should be added (H → F). Recall: <em>…”the level graph consists of all edges which go from L to L+1 in level and have remaining capacity &gt; 0”</em></p>
+
+<ol>
+  <li>The sink was reached, continue.</li>
+  <li>
+    <p>Traverse the level graph by doing multiple DFS from \(s \rightarrow t\) until a blocking flow is reached.</p>
+
+    <p><strong>First Iteration:</strong></p>
+
+    <p><strong>[1] \(s \rightarrow A \rightarrow B \rightarrow C \rightarrow t\)</strong>
+ <span style="color:green">(green)</span></p>
+
+    <p>Bottleneck value = \(min(5-0,\;10-0,\;10-0,\;5-0) = 5\)</p>
+
+    <p>Update the graph with the <strong>new</strong> flow values.</p>
+
+    <p><strong>[2] \(s \rightarrow G \rightarrow H \rightarrow F \rightarrow t\)</strong>
+ <span style="color:#0096FF">(blue)</span></p>
+
+    <p>Bottleneck value = \(min(15-0,\;25-0,\;20-0,\;15-0) = 15\)</p>
+
+    <p>Update the graph with the <strong>new</strong> flow values.</p>
+
+    <p><strong>[3] \(s \rightarrow A \rightarrow B \rightarrow C \rightarrow t\)</strong></p>
+
+    <p>We have reached a <strong>blocking flow</strong>.</p>
+
+    <p>We should now reset and rebuild the level graph with the new capacities reflected on the original graph.</p>
+
+    <div style="text-align:center;">
+     <img style="max-width: 30em; margin-bottom: 2em;" src="assets/img/braindumps-flow/6.png" />
+ </div>
+
+    <p><strong>Second Iteration: Updated level graph; Repeat step 3 on all valid edges</strong></p>
+
+    <div style="min-height: 20em;">
+     <img style="max-width: 60%; float:left;" src="assets/img/braindumps-flow/7.png" />
+     <div style="margin-top: 4em; float:right;">
+         <table border="2.5px">
+             <tbody>
+                 <tr>
+                     <td style="width: 52px;">&nbsp;A: 2</td>
+                     <td style="width: 52px;">&nbsp;D: 1</td>
+                     <td style="width: 52px;">&nbsp;G: 3</td>
+                 </tr>
+                 <tr>
+                     <td style="width: 52px;">&nbsp;B: 3</td>
+                     <td style="width: 52px;">&nbsp;E: 2</td>
+                     <td style="width: 52px;">&nbsp;H: 4</td>
+                 </tr>
+                 <tr>
+                     <td style="width: 52px;">&nbsp;C: 4</td>
+                     <td style="width: 52px;">&nbsp;F: 3</td>
+                     <td style="width: 52px;">&nbsp;I: 4</td>
+                 </tr>
+             </tbody>
+         </table>
+     </div>
+ </div>
+
+    <p><strong>[1] \(s \rightarrow D \rightarrow E \rightarrow F \rightarrow I \rightarrow t\)</strong></p>
+
+    <p>Bottleneck value = \(min(10,\;20,\;30,\;15) = 10\)</p>
+
+    <p>Update the graph with the <strong>new</strong> flow values.</p>
+    <div style="min-height: 16em; margin-top: 1em; margin-bottom: 2em;">
+ <img style="max-width: 60%; float:left; margin-right: 1em;" src="assets/img/braindumps-flow/8.png" />
+ We could also have chosen <span style="color:red">(red)</span>: 
+ $$s \rightarrow G \rightarrow H \rightarrow F \nrightarrow$$
+ and reach a <b>dead end</b>. If this was the case, we should <b>backtrack</b> (until we find an edge leading to a different node) and keep going until we reach the sink.
+ </div>
+  </li>
+</ol>
+
+<p><a href="https://link.springer.com/chapter/10.1007/11685654_10">Even et al.</a> suggested pruning dead ends when backtracking to avoid reaching them multiple times.</p>
+
+<p>By the end of this phase, if we inspect the graph we notice another blocking flow has been reached, When we try to build another level graph, we can’t find a path from \(s \rightarrow t\). The algorithm has converged and the maximum flow has been found.</p>
+
+
+      <br>
+
+      
+      <p><small>Powered by Jekyll and <a href="https://github.com/yaoyao-liu/minimal-light" target="_blank" rel="noopener">Minimal Light</a> theme.</small></p>
+      
+
+      </section>
+      <footer>
+        
+      </footer>
+    </div>
+    <script src="/assets/js/scale.fix.js"></script>
+    
+  </body>
+</html>

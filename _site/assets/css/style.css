@@ -162,7 +162,7 @@ footer { width: 232px; float: left; position: fixed; bottom: 30px; -webkit-font-
   .image.avatar img { width: 95px; padding: 20px; }
   #head1o2 { visibility: hidden; }
   #head2o2 { visibility: hidden; } }
-@media print { body { padding: 0.4in; font-size: 12pt; color: #444; } }
+@media print { body { padding: 0.4in; font-size: 16pt; color: #444; } }
 .biblink { text-decoration: none; display: inline; margin-right: 0px; }
 
 .fakelink { text-decoration: none; cursor: pointer; }
