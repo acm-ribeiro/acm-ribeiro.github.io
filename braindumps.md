@@ -27,11 +27,11 @@ In the maximum-flow problem we wish to compute the greatest rate at which we can
 
 ## Flow networks and flows
 
-A flow network is a directed graph in which the edges have a non-negative capacity. We distinguish two vertices in a flow network: the *source* $$s$$ and the *sink* $$t$$. For each vertex the flow network contains a path from the source to the sink. The graph is connected and all vertices other than $$s$$ have at least on entering edge. 
+A flow network is a directed graph in which the edges have a non-negative capacity. We distinguish two vertices in a flow network: the *source* $$s$$ and the *sink* $$t$$. For each vertex the flow network contains a path from the source to the sink. The graph is connected and all vertices other than $$s$$ have at least one incoming edge. 
 
 More formally, let $$G = (V,\;E)$$ be a flow network with a capacity function $$c$$. Let $$s$$ be the source of the network, and let $$t$$ be the sink. A *flow* in $$G$$ is a real-valued function $$f : V \times V \rightarrow \mathbb{R}$$ that satisfies the following two properties: 
 
-1. Capacity Constraint: for all $$u, v \in V$$ we require $$0 \leq f(u, v) \leq c(u, v)$$, i.e., the flow from one vertex to another must be nonnegative and must not exceed the given capacity.
+1. Capacity Constraint: for all $$u, v \in V$$ we require $$0 \leq f(u, v) \leq c(u, v)$$, i.e., the flow from one vertex to another must be non-negative and must not exceed the given capacity.
    
 2. Flow Conservation: for all $$u \in V \setminus \{s, t\}$$ we require $$\sum_{v \in V} f(v, u) = \sum_{v \in V} f(u,v)$$, i.e., the total flow into a vertex other than the source or sink must equal the total flow out of that vertex — informally, “flow in equals flow out.”
 
@@ -69,7 +69,7 @@ Intuitively, any flow in the network in (a) corresponds to a flow in the network
 
 
 
-## Maximum Flow $$-$$ Dinic’s Algorithm
+## Dinic’s Algorithm
 
 Dinic's algorithm is a strongly polynomial maximum flow algorithm with a runtime of $$O(\mid V\mid ^2.E)$$. The main idea behind this algorithm is to guide augmenting paths from $$s \rightarrow t$$ using a *level graph*, greatly reducing the runtime. 
 
@@ -84,7 +84,7 @@ Backwards and sideways edges are omitted from the level graph. The goal is to go
 1. Construct a level graph by doing a BFS from the source to label all the levels of the current flow graph. 
 2. If the sink was never reached while building the level graph, then stop and return the maximum flow. 
 3. Using only valid edges in the level graph, do multiple DFSs from $$s \rightarrow t$$ until a **blocking flow** is reached, and sum over the bottleneck values of all the augmenting paths found to calculate the maximum flow. 
-4. Repeat steps 1 - 3.
+4. Repeat steps 1-3.
 
 <div style="min-height: 4em; border: 2px solid #b171f5; padding: 1em; text-align: justify;">
     <p style="width: 45%; float:left;">
@@ -215,4 +215,4 @@ This is not just a regular BFS: even when the node was previously visited, if th
 
 [Even et al.](https://link.springer.com/chapter/10.1007/11685654_10) suggested pruning dead ends when backtracking to avoid reaching them multiple times.
 
-By the end of this phase, if we inspect the graph we notice another blocking flow has been reached, When we try to build another level graph, we can’t find a path from $$s \rightarrow t$$. The algorithm has converged and the maximum flow has been found.
+By the end of this phase, if we inspect the graph we notice another blocking flow has been reached. When we try to build another level graph, we can’t find a path from $$s \rightarrow t$$. The algorithm has converged and the maximum flow has been found.
