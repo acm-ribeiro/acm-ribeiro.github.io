@@ -10,6 +10,11 @@ layout: homepage
 
 ---
 
+## TAROT Summer School 24 @ Università degli Studi di Bergamo -- Italy 
+<img src="assets/img/tarot24.jpg" alt="TAROT24">
+
+--- 
+
 ## ISCE 24 @ CCB, Belém -- Portugal 
 <img src="assets/img/ICSE24_1.JPG" alt="ICSE24">
 From left to right: Marko Ivanković (Google; University of Passau), Philipp Straubinger (University of Passau), and Ana Ribeiro. 
