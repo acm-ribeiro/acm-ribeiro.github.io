@@ -25,7 +25,7 @@ layout: homepage
       <strong>Ana Catarina Ribeiro</strong>, Margarida Mamede, Carla Ferreira
     </div>
     <div class="periodical">
-      <em>19th IEEE International Conference on Software Testing, Verification and Validation <strong>(ICST)</strong>, 2026.</em>
+      <em>19th IEEE International Conference on Software Testing, Verification and Validation (<strong><a href="https://conf.researchr.org/home/icst-2026">ICST</a></strong>), 2026.</em>
     </div>
     <div class="abstract">
       <p>Automated black-box testing of APIs typically relies on interface specifications that define available operations and data schemas, but offer limited or no behavioural semantics. This semantic gap amplifies the test-oracle problem and limits the generation of effective, stateful call sequences. We introduce IcePick, a framework that achieves systematic state-space coverage for API testing by leveraging model checking. IcePick uses TLA+ to formally model API state evolution, employs the TLC model checker to exhaustively explore reachable states, and generates test sequences that provably cover the behavioural model. To address oracle limitations beyond HTTP status codes, we propose Glacier, a first-order logic contract language that enriches API specifications with executable semantic contracts, enabling automated behavioural verification during test execution.</p>
