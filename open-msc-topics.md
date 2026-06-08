@@ -16,7 +16,7 @@ The following MSc topics are open and supervised by [**Carla Ferreira**](http://
 
 <center>
 <div style="
-    width:70%; border: 2px solid #c9a8e0; 
+    width:60%; border: 2px solid #c9a8e0; 
     border-radius: 10px; 
     padding: 1.2rem 1.5rem; 
     margin: 1.5rem 0; 
