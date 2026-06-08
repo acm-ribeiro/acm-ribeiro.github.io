@@ -6,7 +6,7 @@ layout: homepage
 <div style="font-size: x-large; margin-bottom: 1.0em; display: flex; flex-wrap: wrap; gap: 0.8rem 0; justify-content: space-evenly;">
     <a href="index.html">Home</a>
     <a href="publications.html">Publications</a>
-    <a href="open-msc-topics.html">Open MSc Topics</a>
+    <a href="open-msc-topics.html">MSc Topics</a>
     <a href="braindumps.html" style="text-decoration: underline;">Brain Dumps</a>
     <a href="media.html">Media</a>
 </div>
