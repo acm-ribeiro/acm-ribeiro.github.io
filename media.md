@@ -12,6 +12,12 @@ layout: homepage
 
 ---
 
+## ICST 26 @ Daejeon -- South Korea 
+<img src="assets/img/ICST26.jpg" alt="ICST26">
+From left to right: Ana Ribeiro, Carla Ferreira, and Vladyslav Mikytiv.
+
+--- 
+
 ## TAROT Summer School 24 @ Università degli Studi di Bergamo -- Italy 
 <img src="assets/img/tarot24.jpg" alt="TAROT24">
 
