@@ -50,4 +50,4 @@ Second, generating meaningful Glacier contracts automatically from OAS files is 
 
 The student will be fully integrated into the IcePick research team at NOVA LINCS, working alongside the framework's authors and contributing directly to an active line of research. This includes access to the existing IcePick codebase, Glacier toolchain, and benchmark infrastructure, as well as regular meetings with supervisors and the opportunity to co-author and publish results in relevant software engineering venues.
 
-Interested? Reach out at acm.ribeiro (at) fct.unl.pt · [Download PDF](assets/files/topic-dependency-contract.pdf)
+Interested? Reach out at acm.ribeiro (at) fct.unl.pt
