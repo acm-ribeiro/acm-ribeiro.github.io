@@ -4,22 +4,28 @@ layout: homepage
 
 <div style="font-size: x-large; float:top; margin-bottom: 1.0em;">
     <a href="index.html">Home</a>
-    <a style="margin-left:2.0em;" href="braindumps.html">Brain Dumps</a>
     <a style="margin-left:2.0em;" href="publications.html">Publications</a>
     <a style="margin-left:2.0em; text-decoration: underline;" href="open-msc-topics.html">Open MSc Topics</a>
+    <a style="margin-left:2.0em;" href="braindumps.html">Brain Dumps</a>
     <a style="margin-left:2.0em;" href="media.html">Media</a>
 </div>
 
 ---
 
-The following MSc topics are open and supervised by [Carla Ferreira](http://www-ctp.di.fct.unl.pt/~cf/) and [Ana Catarina Ribeiro](index.html). Students will be fully integrated into the IcePick research team at NOVA LINCS, with access to the existing codebase, toolchain, and benchmark infrastructure, and the opportunity to co-author and publish results in relevant software engineering venues.
+The following MSc topics are open and supervised by [**Carla Ferreira**](http://www-ctp.di.fct.unl.pt/~cf/) and [**Ana Catarina Ribeiro**](index.html). Students will be fully integrated into the IcePick research team at NOVA LINCS, with access to the existing codebase, toolchain, and benchmark infrastructure, and the opportunity to co-author and publish results in relevant software engineering venues.
 
 <center>
-    <b style="font-size: 20px;">
-        <p style="margin:3px;">Interested?</p>
-        <p style="margin:4px;">📝 Fill in <a href="https://forms.gle/7uhTHgrUPuXz5Kb26">this form</a>.</p>
-    </b>
-    <p>(you need to be logged in with your institutional email @campus)</p>
+<div style="
+    width:70%; border: 2px solid #c9a8e0; 
+    border-radius: 10px; 
+    padding: 1.2rem 1.5rem; 
+    margin: 1.5rem 0; 
+    text-align: center; 
+    background-color: #fdfaff;">
+    <p style="margin: 0 0 4px; font-size: 1.15rem; font-weight: 600;">Interested?</p>
+    <p style="margin: 0 0 6px; font-size: 1.1rem; font-weight: 600;">📝 Fill in <a href="https://forms.gle/7uhTHgrUPuXz5Kb26">this form</a>.</p>
+    <p style="margin: 0; font-size: 0.9rem; color: #666;">(you need to be logged in with your institutional email @campus)</p>
+</div>
 </center>
 
 ### Open Topics
