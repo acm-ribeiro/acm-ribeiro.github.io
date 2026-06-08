@@ -2,12 +2,12 @@
 layout: homepage
 ---
 
-<div style="font-size: x-large; float:top; margin-bottom: 1.0em;">
+<div style="font-size: x-large; margin-bottom: 1.0em; display: flex; flex-wrap: wrap; gap: 0.8rem 0; justify-content: space-evenly;">
     <a href="index.html">Home</a>
-    <a style="margin-left:2.0em; text-decoration: underline;" href="publications.html">Publications</a>
-    <a style="margin-left:2.0em;" href="open-msc-topics.html">Open MSc Topics</a>
-    <a style="margin-left:2.0em;" href="braindumps.html">Brain Dumps</a>
-    <a style="margin-left:2.0em;" href="media.html">Media</a>
+    <a href="publications.html" style="text-decoration: underline;">Publications</a>
+    <a href="open-msc-topics.html">Open MSc Topics</a>
+    <a href="braindumps.html">Brain Dumps</a>
+    <a href="media.html">Media</a>
 </div>
 
 ---

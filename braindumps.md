@@ -3,16 +3,15 @@ layout: homepage
 ---
 <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
 
-<div style="font-size: x-large; float:top; margin-bottom: 1.0em;">
+<div style="font-size: x-large; margin-bottom: 1.0em; display: flex; flex-wrap: wrap; gap: 0.8rem 0; justify-content: space-evenly;">
     <a href="index.html">Home</a>
-    <a style="margin-left:2.0em;" href="publications.html">Publications</a>
-    <a style="margin-left:2.0em;" href="open-msc-topics.html">Open MSc Topics</a>
-    <a style="margin-left:2.0em; text-decoration: underline;" href="braindumps.html">Brain Dumps</a>
-    <a style="margin-left:2.0em;" href="media.html">Media</a>
+    <a href="publications.html">Publications</a>
+    <a href="open-msc-topics.html">Open MSc Topics</a>
+    <a href="braindumps.html" style="text-decoration: underline;">Brain Dumps</a>
+    <a href="media.html">Media</a>
 </div>
 
 ---
-
 
 Recently, I have been dabbling a bit with graph algorithms to solve a very specific problem, and a 
 professor came up with the idea to use Maximum Flow algorithms. These are my notes on Dinic's algorithm, adapted from:
