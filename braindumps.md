@@ -87,7 +87,7 @@ Backwards and sideways edges are omitted from the level graph. The goal is to go
 3. Using only valid edges in the level graph, do multiple DFSs from $$s \rightarrow t$$ until a **blocking flow** is reached, and sum over the bottleneck values of all the augmenting paths found to calculate the maximum flow. 
 4. Repeat steps 1-3.
 
-<div style="min-height: 4em; border: 2px solid #b171f5; padding: 1em; text-align: justify;">
+<div style="min-height: 5.5em; border: 2px solid #b171f5; padding: 1em; text-align: justify;line-height: 1.4;">
     <p style="width: 45%; float:left;">
         <a style="font-weight:bold;">Blocking Flow</a>
         A flow in which every possible augmenting path from the source to the sink is filled to capacity.
