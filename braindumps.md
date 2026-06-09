@@ -11,8 +11,8 @@ layout: homepage
 
 ---
 <center>
-    <div style="margin-top:2.2em; border: 1px solid #c9a8e0; border-radius: 18px; background-color: #fdfaff; text-align: center; padding:10px; line-height: 1; width: 30%; height:1em">
-        <p style="margin: 0 0 0.4rem; font-size: 1.1rem; font-weight: 600; color: #51168b;">
+    <div style="margin-top:1.2em; border: 1px solid #c9a8e0; border-radius: 18px; background-color: #fdfaff; text-align: center; padding:10px; line-height: 0; display: inline-block; padding:20px">
+        <p style="margin: 0 0 0; font-size: 1.2rem; font-weight: 600; color: #51168b;">
             I write to think
         </p>
     </div>
