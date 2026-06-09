@@ -159,7 +159,7 @@ papertitle {
 }
 
 .image.avatar img {
-  width: 80%;
+  width: 90%;
   padding: 10px;
   border-radius: 30px;
 }
@@ -167,6 +167,14 @@ papertitle {
 #header .image.avatar {
   margin: 0 0 1em 0;
   width: 8.00em;
+}
+
+body {
+  line-height: 1.8;
+}
+
+section ul, section ol {
+  line-height: 1.4;
 }
 
 h3, h4, h5, h6 {
