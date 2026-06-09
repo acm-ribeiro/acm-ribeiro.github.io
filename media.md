@@ -16,6 +16,8 @@ layout: homepage
 <img src="assets/img/ICST26.jpg" alt="ICST26">
 From left to right: Ana Ribeiro, Carla Ferreira, and Vladyslav Mikytiv.
 
+<p style="text-align: center;">Three scholars on their way to defend the realm with one ppt.</p> 
+
 --- 
 
 ## TAROT Summer School 24 @ Università degli Studi di Bergamo -- Italy 

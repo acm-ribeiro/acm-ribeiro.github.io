@@ -30,6 +30,6 @@ The following MSc topics are open and supervised by [**Carla Ferreira**](http://
 
 ### Open Topics
 
-- [**Automated Dependency and Contract Inference for RESTful APIs**](topic-dependency-contract.html). Investigate techniques for automatically inferring operation dependencies and Glacier contracts from standard OpenAPI Specification files, reducing the manual effort required to apply IcePick to new systems.
+- [**Automated Dependency and Contract Inference for RESTful APIs**](https://drive.google.com/drive/folders/1jhMz_fixZzbEqr2AYgwLMekW0O52Yg5z?usp=sharing). Investigate techniques for automatically inferring operation dependencies and Glacier contracts from standard OpenAPI Specification files, reducing the manual effort required to apply IcePick to new systems.
 
-- [**Automated Inference of Likely Invariants and TLA+ Specifications for RESTful APIs**](topic-invariants-tla.html). Design and implement a pipeline for the automated inference of Glacier invariants and the generation of TLA+ specifications from OAS files enriched with Glacier contracts, eliminating the remaining sources of manual effort in the IcePick workflow.
+- [**Automated Inference of Likely Invariants and TLA+ Specifications for RESTful APIs**](https://drive.google.com/drive/folders/1jhMz_fixZzbEqr2AYgwLMekW0O52Yg5z?usp=sharing). Design and implement a pipeline for the automated inference of Glacier invariants and the generation of TLA+ specifications from OAS files enriched with Glacier contracts, eliminating the remaining sources of manual effort in the IcePick workflow.
