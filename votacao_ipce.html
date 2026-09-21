@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Votação de Turnos IPCE</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  :root {
+    --bg: #f5f4f0; --surface: #fff; --surface-alt: #f0efe9;
+    --border: rgba(0,0,0,0.12); --border-strong: rgba(0,0,0,0.22);
+    --text: #1a1a18; --text-muted: #5f5e5a; --text-faint: #aaa;
+    --accent: #185FA5; --accent-bg: #E6F1FB; --accent-dark: #0C447C;
+    --green: #1D9E75; --green-bg: #E1F5EE; --green-dark: #0F6E56;
+    --amber-bg: #FAEEDA; --amber-border: #FAC775; --amber-text: #633806;
+    --red-bg: #FCEBEB; --red-border: #F7C1C1; --red-text: #a32d2d;
+    --radius: 8px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1c1c1a; --surface: #2c2c2a; --surface-alt: #242422;
+      --border: rgba(255,255,255,0.1); --border-strong: rgba(255,255,255,0.2);
+      --text: #e8e7e0; --text-muted: #a0a09a; --text-faint: #666;
+      --accent: #378ADD; --accent-bg: #0C447C44; --accent-dark: #B5D4F4;
+      --green: #5DCAA5; --green-bg: #085041; --green-dark: #9FE1CB;
+      --amber-bg: #41240244; --amber-border: #63380688; --amber-text: #FAC775;
+      --red-bg: #50131344; --red-border: #a32d2d88; --red-text: #F09595;
+    }
+  }
+  body { font-family: system-ui, -apple-system, sans-serif; margin: 0; padding: 0; background: var(--bg); color: var(--text); min-height: 100vh; }
+  .app { max-width: 700px; margin: 0 auto; padding: 2rem 1rem 4rem; }
+  h1 { font-size: 22px; font-weight: 600; margin: 0 0 0.2rem; }
+  .subtitle { font-size: 14px; color: var(--text-muted); margin: 0 0 2rem; }
+  .step { display: none; }
+  .step.active { display: block; }
+
+  .card { background: var(--surface); border: 0.5px solid var(--border); border-radius: 12px; padding: 1.25rem; margin-bottom: 1rem; }
+  .card-title { font-size: 15px; font-weight: 600; margin: 0 0 1rem; }
+
+  .info-banner { background: var(--amber-bg); border: 0.5px solid var(--amber-border); border-radius: var(--radius); padding: 0.75rem 1rem; font-size: 13px; color: var(--amber-text); margin-bottom: 1.25rem; }
+  .error-banner { background: var(--red-bg); border: 0.5px solid var(--red-border); border-radius: var(--radius); padding: 0.75rem 1rem; font-size: 13px; color: var(--red-text); margin-bottom: 1rem; display: none; }
+  .success-banner { background: var(--green-bg); border: 0.5px solid var(--green); border-radius: var(--radius); padding: 0.75rem 1rem; font-size: 13px; color: var(--green-dark); margin-bottom: 1rem; display: none; }
+
+  /* Loading overlay */
+  .loading-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.35); display: flex; align-items: center; justify-content: center; z-index: 999; display: none; }
+  .loading-box { background: var(--surface); border-radius: 12px; padding: 1.5rem 2rem; text-align: center; font-size: 15px; }
+  .spinner { width: 28px; height: 28px; border: 3px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.7s linear infinite; margin: 0 auto 0.75rem; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* Nome grid */
+  .nomes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px,1fr)); gap: 10px; }
+  .nome-btn { background: var(--surface); border: 1px solid var(--border-strong); border-radius: 12px; padding: 1rem 1.1rem; cursor: pointer; font-family: inherit; text-align: left; transition: border-color 0.12s, background 0.12s; display: flex; flex-direction: column; gap: 4px; width: 100%; }
+  .nome-btn:hover:not(:disabled) { background: var(--accent-bg); border-color: var(--accent); }
+  .nome-btn.selected { background: var(--accent-bg); border: 2px solid var(--accent); }
+  .nome-btn.ja-votou { opacity: 0.45; cursor: not-allowed; background: var(--surface-alt); }
+  .nome-btn-nome { font-size: 15px; font-weight: 600; color: var(--text); }
+  .nome-btn-tag { font-size: 11px; background: var(--amber-bg); color: var(--amber-text); border-radius: 4px; padding: 1px 6px; align-self: flex-start; }
+  .nome-btn-done { font-size: 11px; color: var(--green-dark); font-weight: 600; }
+
+  /* Drag list */
+  .turno-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 1rem; }
+  .turno-item { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 0.7rem 0.9rem; display: flex; align-items: center; gap: 12px; cursor: grab; user-select: none; }
+  .turno-item:active { cursor: grabbing; }
+  .turno-item.dragging { opacity: 0.35; }
+  .turno-item.drag-over { border: 2px solid var(--accent); background: var(--accent-bg); }
+  .rank-num { width: 26px; height: 26px; border-radius: 50%; background: var(--surface-alt); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; color: var(--text-muted); flex-shrink: 0; }
+  .rank-num.top3 { background: var(--accent-bg); color: var(--accent); }
+  .turno-info { flex: 1; min-width: 0; }
+  .turno-name { font-size: 14px; font-weight: 600; }
+  .turno-detail { font-size: 12px; color: var(--text-muted); margin-top: 1px; }
+  .pts-badge { font-size: 12px; color: var(--accent); background: var(--accent-bg); padding: 2px 8px; border-radius: 20px; flex-shrink: 0; white-space: nowrap; }
+  .drag-handle { color: var(--text-faint); font-size: 16px; cursor: grab; flex-shrink: 0; letter-spacing: -2px; }
+
+  /* Buttons */
+  .btn { border: 1px solid var(--border-strong); border-radius: var(--radius); padding: 0.55rem 1.1rem; font-size: 14px; background: var(--surface); color: var(--text); cursor: pointer; font-family: inherit; transition: background 0.12s; }
+  .btn:hover:not(:disabled) { background: var(--surface-alt); }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .btn-primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .btn-primary:hover:not(:disabled) { background: var(--accent-dark); border-color: var(--accent-dark); }
+  .btn-danger { background: var(--red-bg); color: var(--red-text); border-color: var(--red-border); }
+  .btn-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 1rem; }
+
+  /* Progress */
+  .progress-wrap { margin-bottom: 1.25rem; }
+  .progress-dots { display: flex; gap: 6px; margin-bottom: 0.4rem; }
+  .prog-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--border-strong); transition: background 0.2s; }
+  .prog-dot.done { background: var(--green); }
+  .prog-dot.current { background: var(--accent); }
+  .progress-label { font-size: 13px; color: var(--text-muted); }
+  .progress-label strong { color: var(--text); font-weight: 600; }
+
+  /* Results */
+  .atrib-list { display: flex; flex-direction: column; }
+  .atrib-row { display: flex; align-items: center; gap: 10px; padding: 0.6rem 0; border-bottom: 0.5px solid var(--border); }
+  .atrib-row:last-child { border-bottom: none; }
+  .atrib-row.regente-row { background: var(--amber-bg); border-radius: var(--radius); padding: 0.6rem 0.75rem; margin-bottom: 2px; border-bottom: none; }
+  .atrib-pos { width: 20px; font-size: 13px; color: var(--text-faint); flex-shrink: 0; }
+  .atrib-turno { flex: 1; font-size: 14px; font-weight: 600; }
+  .atrib-turno span { font-weight: 400; font-size: 12px; color: var(--text-muted); margin-left: 4px; }
+  .atrib-docente { font-size: 13px; color: var(--green-dark); font-weight: 600; }
+  .atrib-pts { font-size: 12px; color: var(--accent); background: var(--accent-bg); padding: 2px 7px; border-radius: 20px; flex-shrink: 0; }
+
+  .pts-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px,1fr)); gap: 10px; margin-top: 1.25rem; }
+  .pts-card { background: var(--surface); border: 0.5px solid var(--border); border-radius: 12px; padding: 1rem; }
+  .pts-card.winner { border: 2px solid var(--green); }
+  .pts-card-name { font-size: 15px; font-weight: 600; margin-bottom: 2px; }
+  .pts-card-detail { font-size: 12px; color: var(--text-muted); margin-bottom: 8px; }
+  .pts-card-num { font-size: 24px; font-weight: 600; color: var(--accent); line-height: 1; }
+  .pts-card-label { font-size: 11px; color: var(--text-faint); margin-top: 2px; }
+
+  .detalhe-card { background: var(--surface); border: 0.5px solid var(--border); border-radius: 12px; padding: 1rem; margin-bottom: 0.75rem; }
+  .detalhe-nome { font-size: 15px; font-weight: 600; margin-bottom: 0.6rem; padding-bottom: 0.6rem; border-bottom: 0.5px solid var(--border); }
+  .detalhe-row { display: flex; align-items: center; gap: 8px; padding: 3px 0; font-size: 13px; }
+  .detalhe-pos { width: 20px; color: var(--text-faint); }
+  .detalhe-turno { flex: 1; }
+  .detalhe-pts { color: var(--accent); }
+
+  /* Config step */
+  .config-input { border: 1px solid var(--border-strong); border-radius: var(--radius); padding: 0.6rem 0.8rem; font-size: 13px; font-family: monospace; background: var(--surface); color: var(--text); width: 100%; margin-top: 0.4rem; }
+  .config-input:focus { outline: none; box-shadow: 0 0 0 2px var(--accent-bg); }
+</style>
+</head>
+<body>
+
+<div class="loading-overlay" id="loading-overlay">
+  <div class="loading-box">
+    <div class="spinner"></div>
+    <div id="loading-msg">A carregar...</div>
+  </div>
+</div>
+
+<div class="app">
+
+<!-- STEP 0: intro -->
+<div class="step" id="step-1">
+  <h1>Votação de Turnos IPCE</h1>
+  <p class="subtitle">Borda Count — 8 docentes · 8 turnos</p>
+
+  <div class="info-banner">
+    <strong>Regra especial:</strong> Artur Miguel Dias (Regente) ficará com <strong>2 turnos práticos</strong>. Os restantes 6 docentes ficam com 1 turno cada. Todos votam nos 8 turnos pela ordem de preferência.
+  </div>
+
+  <div id="status-votos" style="font-size:14px;color:var(--text-muted);margin-bottom:1rem;"></div>
+
+  <div class="card">
+    <div class="card-title">8 turnos em disputa</div>
+    <div id="lista-turnos-preview"></div>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn btn-primary" onclick="mostrarStep(2)">Votar →</button>
+    <button class="btn" onclick="verResultados()">Ver resultados</button>
+  </div>
+</div>
+
+<!-- STEP 2: selecionar nome -->
+<div class="step" id="step-2">
+  <h1>Quem és tu?</h1>
+  <p class="subtitle">Seleciona o teu nome para votar</p>
+  <div id="error-nome" class="error-banner"></div>
+  <div class="nomes-grid" id="nomes-grid"></div>
+  <div class="btn-row" style="margin-top:1.5rem;">
+    <button class="btn btn-primary" onclick="selecionarDocente()">Votar →</button>
+    <button class="btn" onclick="mostrarStep(1)">← Voltar</button>
+  </div>
+</div>
+
+<!-- STEP 3: votar -->
+<div class="step" id="step-3">
+  <h1>As tuas preferências</h1>
+  <p class="subtitle">Arrasta para ordenar — do mais preferido (topo) ao menos preferido (baixo)</p>
+
+  <div class="progress-wrap">
+    <div class="progress-dots" id="progress-dots"></div>
+    <div class="progress-label"><strong id="n-votaram"></strong> de 8 já votaram</div>
+  </div>
+
+  <div style="font-size:14px;margin-bottom:0.75rem;">A votar: <strong id="docente-atual-nome"></strong></div>
+  <div id="regente-aviso" style="display:none;" class="info-banner">
+    Como regente, ficará com os seus <strong>2 turnos mais preferidos</strong> após o apuramento.
+  </div>
+
+  <div id="success-voto" class="success-banner"></div>
+  <div id="error-voto" class="error-banner"></div>
+
+  <div class="card" style="padding:0.75rem;">
+    <div class="turno-list" id="turno-list"></div>
+  </div>
+  <div style="font-size:12px;color:var(--text-faint);margin-bottom:0.5rem;">1.º lugar = 8 pontos · 8.º lugar = 1 ponto</div>
+  <div class="btn-row">
+    <button class="btn btn-primary" id="btn-confirmar" onclick="confirmarVoto()">Confirmar preferências →</button>
+    <button class="btn" onclick="mostrarStep(2)">← Mudar nome</button>
+  </div>
+</div>
+
+<!-- STEP 4: resultados -->
+<div class="step" id="step-4">
+  <h1>Resultados da Votação</h1>
+  <p class="subtitle">Distribuição automática por Borda Count</p>
+
+  <div id="resultados-aviso" class="info-banner" style="display:none;"></div>
+
+  <div class="card">
+    <div class="card-title">Atribuição final</div>
+    <div class="atrib-list" id="atrib-list"></div>
+  </div>
+
+  <div style="font-size:15px;font-weight:600;margin:1.5rem 0 0.75rem;">Pontuação Borda por turno</div>
+  <div class="pts-grid" id="pts-grid"></div>
+
+  <div class="btn-row" style="margin-top:1.5rem;">
+    <button class="btn" onclick="mostrarStep(5)">Ver votos individuais</button>
+    <button class="btn" onclick="mostrarStep(1)">← Início</button>
+    <button class="btn btn-danger" onclick="confirmarReset()">Reiniciar votação</button>
+  </div>
+</div>
+
+<!-- STEP 5: detalhes -->
+<div class="step" id="step-5">
+  <h1>Votos individuais</h1>
+  <p class="subtitle">Preferências declaradas por cada docente</p>
+  <div id="detalhes-content"></div>
+  <div class="btn-row">
+    <button class="btn" onclick="mostrarStep(4)">← Resultados</button>
+  </div>
+</div>
+
+</div><!-- /app -->
+
+<script>
+// ─── CONFIGURAÇÃO ───────────────────────────────────────────────────────────
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw2jiwMe0587Zq6rznsOlg1ggf7Csh3vcb9nWPAH-8ZQgh-WZ7nJeo6-jsc84aVSM7a/exec';
+
+const DOCENTES = [
+  { nome: 'Ana Ribeiro',       regente: false },
+  { nome: 'Ion Chirica',       regente: false },
+  { nome: 'Henrique Duarte',   regente: false },
+  { nome: 'Tiago Nunes',       regente: false },
+  { nome: 'Sofia Monteiro',    regente: false },
+  { nome: 'Francisco Silva',   regente: false },
+  { nome: 'Artur Miguel Dias', regente: true  },
+];
+const REGENTE_IDX = DOCENTES.findIndex(d => d.regente);
+
+const TURNOS = [
+  { id:'p1', nome:'p.1', dia:'4ª feira', hora:'11h–13h', sala:'Lab 119' },
+  { id:'p2', nome:'p.2', dia:'3ª feira', hora:'8h–10h',  sala:'Lab 120' },
+  { id:'p3', nome:'p.3', dia:'2ª feira', hora:'15h–17h', sala:'Lab 121' },
+  { id:'p4', nome:'p.4', dia:'4ª feira', hora:'9h–11h',  sala:'Lab 120' },
+  { id:'p5', nome:'p.5', dia:'4ª feira', hora:'11h–13h', sala:'Lab 123' },
+  { id:'p6', nome:'p.6', dia:'2ª feira', hora:'11h–13h', sala:'Lab 114' },
+  { id:'p7', nome:'p.7', dia:'3ª feira', hora:'10h–12h', sala:'Lab 116' },
+  { id:'p8', nome:'p.8', dia:'2ª feira', hora:'18h–20h', sala:'Lab 114' },
+];
+
+let votos = {};         // { docenteNome: [tid, tid, ...] }
+let selectedDocente = null;
+let currentOrder = [];
+let dragSrc = null;
+
+// ─── API ────────────────────────────────────────────────────────────────────
+function showLoading(msg) {
+  document.getElementById('loading-msg').textContent = msg || 'A carregar...';
+  document.getElementById('loading-overlay').style.display = 'flex';
+}
+function hideLoading() {
+  document.getElementById('loading-overlay').style.display = 'none';
+}
+
+async function apiCall(params) {
+  const qs = Object.entries(params).map(([k,v]) => encodeURIComponent(k) + '=' + encodeURIComponent(v)).join('&');
+  const url = SCRIPT_URL + '?' + qs + '&t=' + Date.now();
+  const res = await fetch(url, { redirect: 'follow' });
+  const text = await res.text();
+  const data = JSON.parse(text);
+  if (!data.ok) throw new Error(data.error || 'Erro');
+  return data;
+}
+
+async function apiGet() {
+  const data = await apiCall({ action: 'getVotos' });
+  return data.votos;
+}
+
+async function apiSave(docenteNome, voto) {
+  await apiCall({ action: 'saveVoto', docente: docenteNome, voto: JSON.stringify(voto) });
+}
+
+async function apiReset() {
+  await apiCall({ action: 'reset' });
+}
+
+// ─── STEP 0: intro ───────────────────────────────────────────────────────────
+function buildPreview() {
+  const tl = document.getElementById('lista-turnos-preview');
+  tl.innerHTML = '';
+  TURNOS.forEach(t => {
+    const r = document.createElement('div');
+    r.style.cssText = 'font-size:13px;padding:5px 0;border-bottom:0.5px solid var(--border);display:flex;gap:8px;';
+    r.innerHTML = `<strong style="min-width:36px;">IPCE ${t.nome}</strong><span style="color:var(--text-muted);">${t.dia} · ${t.hora} · ${t.sala}</span>`;
+    tl.appendChild(r);
+  });
+  const n = Object.keys(votos).length;
+  document.getElementById('status-votos').textContent = n === 0
+    ? 'Nenhum docente votou ainda.'
+    : `${n} de ${DOCENTES.length} docente(s) já votaram.`;
+}
+
+// ─── STEP 2: selecionar nome ─────────────────────────────────────────────────
+function buildNomesGrid() {
+  const grid = document.getElementById('nomes-grid');
+  grid.innerHTML = '';
+  selectedDocente = null;
+  DOCENTES.forEach((d, i) => {
+    const jaVotou = votos[d.nome] !== undefined;
+    const btn = document.createElement('button');
+    btn.className = 'nome-btn' + (jaVotou ? ' ja-votou' : '');
+    btn.disabled = jaVotou;
+    btn.dataset.idx = i;
+    btn.innerHTML = `
+      <span class="nome-btn-nome">${d.nome}</span>
+      ${d.regente ? '<span class="nome-btn-tag">Regente · 2 turnos</span>' : ''}
+      ${jaVotou ? '<span class="nome-btn-done">✓ já votou</span>' : ''}
+    `;
+    if (!jaVotou) {
+      btn.onclick = () => {
+        document.querySelectorAll('.nome-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        selectedDocente = i;
+        document.getElementById('error-nome').style.display = 'none';
+      };
+    }
+    grid.appendChild(btn);
+  });
+}
+
+function selecionarDocente() {
+  const err = document.getElementById('error-nome');
+  if (selectedDocente === null) {
+    err.textContent = 'Seleciona o teu nome antes de continuar.';
+    err.style.display = 'block';
+    return;
+  }
+  err.style.display = 'none';
+  mostrarStep(3);
+  renderVoting();
+}
+
+// ─── STEP 3: votar ───────────────────────────────────────────────────────────
+function renderProgress() {
+  const wrap = document.getElementById('progress-dots');
+  wrap.innerHTML = '';
+  DOCENTES.forEach((d) => {
+    const el = document.createElement('div');
+    el.className = 'prog-dot' + (votos[d.nome] !== undefined ? ' done' : '');
+    wrap.appendChild(el);
+  });
+  document.getElementById('n-votaram').textContent = Object.keys(votos).length;
+  document.getElementById('docente-atual-nome').textContent = DOCENTES[selectedDocente].nome;
+  document.getElementById('regente-aviso').style.display = DOCENTES[selectedDocente].regente ? 'block' : 'none';
+}
+
+function renderVoting() {
+  renderProgress();
+  currentOrder = [...TURNOS];
+  document.getElementById('success-voto').style.display = 'none';
+  document.getElementById('error-voto').style.display = 'none';
+  renderTurnoList();
+}
+
+function renderTurnoList() {
+  const list = document.getElementById('turno-list');
+  list.innerHTML = '';
+  const n = currentOrder.length;
+  currentOrder.forEach((t, i) => {
+    const pts = n - i;
+    const item = document.createElement('div');
+    item.className = 'turno-item';
+    item.draggable = true;
+    item.dataset.idx = i;
+    item.innerHTML = `
+      <div class="rank-num ${i < 3 ? 'top3' : ''}">${i+1}</div>
+      <div class="turno-info">
+        <div class="turno-name">IPCE ${t.nome}</div>
+        <div class="turno-detail">${t.dia} · ${t.hora} · ${t.sala}</div>
+      </div>
+      <div class="pts-badge">${pts} pts</div>
+      <div class="drag-handle" aria-hidden="true">⋮⋮</div>
+    `;
+    item.addEventListener('dragstart', function(e) {
+      dragSrc = this; this.classList.add('dragging');
+      e.dataTransfer.effectAllowed = 'move';
+    });
+    item.addEventListener('dragover', function(e) {
+      e.preventDefault();
+      list.querySelectorAll('.turno-item').forEach(el => el.classList.remove('drag-over'));
+      this.classList.add('drag-over');
+    });
+    item.addEventListener('dragleave', function() { this.classList.remove('drag-over'); });
+    item.addEventListener('drop', function(e) {
+      e.preventDefault();
+      if (dragSrc === this) return;
+      const from = +dragSrc.dataset.idx, to = +this.dataset.idx;
+      const moved = currentOrder.splice(from, 1)[0];
+      currentOrder.splice(to, 0, moved);
+      renderTurnoList();
+    });
+    item.addEventListener('dragend', function() {
+      list.querySelectorAll('.turno-item').forEach(el => el.classList.remove('dragging','drag-over'));
+    });
+    list.appendChild(item);
+  });
+  addTouchDrag(list);
+}
+
+function addTouchDrag(list) {
+  let touchItem = null, ghost = null, startY = 0, startTop = 0;
+  list.querySelectorAll('.turno-item').forEach(item => {
+    item.addEventListener('touchstart', e => {
+      touchItem = item;
+      const r = item.getBoundingClientRect();
+      startY = e.touches[0].clientY; startTop = r.top;
+      ghost = item.cloneNode(true);
+      ghost.style.cssText = `position:fixed;opacity:0.75;pointer-events:none;z-index:9999;width:${r.width}px;left:${r.left}px;top:${r.top}px;border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,0.15);`;
+      document.body.appendChild(ghost);
+    }, {passive:true});
+    item.addEventListener('touchmove', e => {
+      e.preventDefault();
+      const dy = e.touches[0].clientY - startY;
+      if (ghost) ghost.style.top = (startTop + dy) + 'px';
+      const cy = e.touches[0].clientY;
+      list.querySelectorAll('.turno-item').forEach(el => el.classList.remove('drag-over'));
+      const over = [...list.querySelectorAll('.turno-item')].find(el => {
+        const r = el.getBoundingClientRect(); return cy >= r.top && cy <= r.bottom;
+      });
+      if (over && over !== touchItem) over.classList.add('drag-over');
+    }, {passive:false});
+    item.addEventListener('touchend', e => {
+      if (ghost) { ghost.remove(); ghost = null; }
+      const cy = e.changedTouches[0].clientY;
+      const over = [...list.querySelectorAll('.turno-item')].find(el => {
+        const r = el.getBoundingClientRect(); return cy >= r.top && cy <= r.bottom;
+      });
+      list.querySelectorAll('.turno-item').forEach(el => el.classList.remove('drag-over'));
+      if (over && over !== touchItem) {
+        const from = +touchItem.dataset.idx, to = +over.dataset.idx;
+        const moved = currentOrder.splice(from, 1)[0];
+        currentOrder.splice(to, 0, moved);
+        renderTurnoList();
+      }
+    });
+  });
+}
+
+async function confirmarVoto() {
+  const btn = document.getElementById('btn-confirmar');
+  const successEl = document.getElementById('success-voto');
+  const errorEl = document.getElementById('error-voto');
+  successEl.style.display = 'none';
+  errorEl.style.display = 'none';
+  btn.disabled = true;
+  showLoading('A guardar voto...');
+  const docenteNome = DOCENTES[selectedDocente].nome;
+  const ordemIds = currentOrder.map(t => t.id);
+  try {
+    await apiSave(docenteNome, ordemIds);
+    votos[docenteNome] = ordemIds;
+    hideLoading();
+    btn.disabled = false;
+    if (Object.keys(votos).length >= DOCENTES.length) {
+      calcularResultados();
+      mostrarStep(4);
+    } else {
+      successEl.textContent = `Voto de ${docenteNome} guardado! Próximo docente pode votar agora.`;
+      successEl.style.display = 'block';
+      setTimeout(() => { mostrarStep(2); }, 1800);
+    }
+  } catch(e) {
+    hideLoading();
+    btn.disabled = false;
+    errorEl.textContent = 'Erro ao guardar. Verifica a ligação e tenta novamente.';
+    errorEl.style.display = 'block';
+  }
+}
+
+// ─── STEP 4: resultados ──────────────────────────────────────────────────────
+async function verResultados() {
+  showLoading('A carregar resultados...');
+  try {
+    votos = await apiGet();
+    hideLoading();
+    const n = Object.keys(votos).length;
+    if (n === 0) {
+      alert('Nenhum docente votou ainda.');
+      return;
+    }
+    calcularResultados();
+    mostrarStep(4);
+  } catch(e) {
+    hideLoading();
+    alert('Erro ao carregar resultados.');
+  }
+}
+
+function calcularResultados() {
+  const n = TURNOS.length;
+  const pontos = {};
+  TURNOS.forEach(t => pontos[t.id] = 0);
+
+  DOCENTES.forEach(d => {
+    const v = votos[d.nome];
+    if (v) v.forEach((tid, i) => { pontos[tid] += (n - i); });
+  });
+
+  const sorted = [...TURNOS].sort((a, b) => pontos[b.id] - pontos[a.id]);
+  const usedTurnos = new Set();
+  const atribuicao = [];
+
+  // Regente: 2 turnos mais preferidos da sua própria lista
+  const regenteNome = DOCENTES[REGENTE_IDX].nome;
+  const regenteVoto = votos[regenteNome] || [];
+  let regenteCount = 0;
+  for (let i = 0; i < regenteVoto.length && regenteCount < 2; i++) {
+    const tid = regenteVoto[i];
+    const t = TURNOS.find(x => x.id === tid);
+    if (t) {
+      const pos = regenteVoto.indexOf(tid);
+      atribuicao.push({ turno: t, docenteNome: regenteNome, pts: n - pos, totalPts: pontos[tid], isRegente: true });
+      usedTurnos.add(tid);
+      regenteCount++;
+    }
+  }
+
+  // Restantes: greedy por Borda
+  const atribuido = new Set([regenteNome]);
+  sorted.forEach(t => {
+    if (usedTurnos.has(t.id)) return;
+    let bestD = null, bestScore = -1;
+    DOCENTES.forEach(d => {
+      if (atribuido.has(d.nome)) return;
+      const v = votos[d.nome];
+      if (!v) return;
+      const pos = v.indexOf(t.id);
+      const score = pos === -1 ? 0 : n - pos;
+      if (score > bestScore) { bestScore = score; bestD = d.nome; }
+    });
+    if (bestD) {
+      atribuicao.push({ turno: t, docenteNome: bestD, pts: bestScore, totalPts: pontos[t.id], isRegente: false });
+      atribuido.add(bestD);
+      usedTurnos.add(t.id);
+    }
+  });
+
+  const faltamVotar = DOCENTES.filter(d => !votos[d.nome]);
+  const aviso = document.getElementById('resultados-aviso');
+  if (faltamVotar.length > 0) {
+    aviso.textContent = `Atenção: ainda faltam votar — ${faltamVotar.map(d=>d.nome).join(', ')}. Resultados parciais.`;
+    aviso.style.display = 'block';
+  } else {
+    aviso.style.display = 'none';
+  }
+
+  // Render atribuição
+  const al = document.getElementById('atrib-list');
+  al.innerHTML = '';
+  const regenteRows = atribuicao.filter(a => a.isRegente);
+  const outrosRows = atribuicao.filter(a => !a.isRegente).sort((a,b) => b.totalPts - a.totalPts);
+
+  regenteRows.forEach(a => {
+    const row = document.createElement('div');
+    row.className = 'atrib-row regente-row';
+    row.innerHTML = `
+      <div class="atrib-pos">★</div>
+      <div class="atrib-turno">IPCE ${a.turno.nome}<span>${a.turno.hora} · ${a.turno.sala}</span></div>
+      <div class="atrib-docente">${a.docenteNome} <span style="font-size:11px;opacity:0.7;">(regente)</span></div>
+      <div class="atrib-pts">${a.totalPts} pts</div>
+    `;
+    al.appendChild(row);
+  });
+  outrosRows.forEach((a, i) => {
+    const row = document.createElement('div');
+    row.className = 'atrib-row';
+    row.innerHTML = `
+      <div class="atrib-pos">${i+1}.</div>
+      <div class="atrib-turno">IPCE ${a.turno.nome}<span>${a.turno.hora} · ${a.turno.sala}</span></div>
+      <div class="atrib-docente">${a.docenteNome}</div>
+      <div class="atrib-pts">${a.totalPts} pts</div>
+    `;
+    al.appendChild(row);
+  });
+
+  // Turno sobrante
+  const sobrante = TURNOS.find(t => !usedTurnos.has(t.id));
+  if (sobrante) {
+    const row = document.createElement('div');
+    row.className = 'atrib-row';
+    row.style.opacity = '0.45';
+    row.innerHTML = `<div class="atrib-pos">—</div><div class="atrib-turno">IPCE ${sobrante.nome}<span>${sobrante.hora}</span></div><div class="atrib-docente" style="color:var(--text-faint);">Não atribuído</div><div class="atrib-pts">${pontos[sobrante.id]} pts</div>`;
+    al.appendChild(row);
+  }
+
+  // Pts grid
+  const pg = document.getElementById('pts-grid');
+  pg.innerHTML = '';
+  sorted.forEach((t, i) => {
+    const c = document.createElement('div');
+    c.className = 'pts-card' + (i === 0 ? ' winner' : '');
+    c.innerHTML = `<div class="pts-card-name">IPCE ${t.nome}</div><div class="pts-card-detail">${t.dia} · ${t.hora}</div><div class="pts-card-num">${pontos[t.id]}</div><div class="pts-card-label">pontos Borda</div>`;
+    pg.appendChild(c);
+  });
+}
+
+// ─── STEP 5: detalhes ───────────────────────────────────────────────────────
+function buildDetalhes() {
+  const n = TURNOS.length;
+  const det = document.getElementById('detalhes-content');
+  det.innerHTML = '';
+  DOCENTES.forEach(d => {
+    if (!votos[d.nome]) return;
+    const card = document.createElement('div');
+    card.className = 'detalhe-card';
+    let rows = votos[d.nome].map((tid, i) => {
+      const t = TURNOS.find(x => x.id === tid);
+      return `<div class="detalhe-row"><div class="detalhe-pos">${i+1}.</div><div class="detalhe-turno">IPCE ${t ? t.nome : tid} — ${t ? t.hora : ''}</div><div class="detalhe-pts">${n-i} pts</div></div>`;
+    }).join('');
+    card.innerHTML = `<div class="detalhe-nome">${d.nome}${d.regente ? ' <span style="font-size:11px;background:var(--amber-bg);color:var(--amber-text);border-radius:4px;padding:1px 6px;">Regente</span>' : ''}</div>${rows}`;
+    det.appendChild(card);
+  });
+}
+
+// ─── RESET ───────────────────────────────────────────────────────────────────
+function confirmarReset() {
+  if (!confirm('Tens a certeza? Isto apaga todos os votos guardados no Google Sheets.')) return;
+  showLoading('A reiniciar...');
+  apiReset().then(() => {
+    votos = {};
+    hideLoading();
+    buildPreview();
+    mostrarStep(1);
+  }).catch(() => {
+    hideLoading();
+    alert('Erro ao reiniciar.');
+  });
+}
+
+// ─── NAV ────────────────────────────────────────────────────────────────────
+function mostrarStep(n) {
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  const el = document.getElementById('step-' + n);
+  if (el) el.classList.add('active');
+  if (n === 2) buildNomesGrid();
+  if (n === 5) buildDetalhes();
+  window.scrollTo(0, 0);
+}
+
+// ─── INIT ────────────────────────────────────────────────────────────────────
+async function init() {
+  showLoading('A carregar votos...');
+  try {
+    votos = await apiGet();
+    hideLoading();
+    buildPreview();
+    mostrarStep(1);
+  } catch(e) {
+    hideLoading();
+    document.querySelector('.app').innerHTML = '<h1>Votação de Turnos IPCE</h1><div class="error-banner" style="display:block;margin-top:1rem;">Erro ao ligar ao Google Sheets. Verifica a ligação à internet e recarrega a página.</div>';
+  }
+}
+
+init();
+</script>
+</body>
+</html>
