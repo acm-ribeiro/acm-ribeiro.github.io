@@ -25,7 +25,7 @@ My main interests include Software Testing & Verification, specially in a black-
 - **[Sep. 2026]** Started a position as a Teaching Assistant of the *Introduction to Programming for Science and Engineering (IPCE)* to  course @ NOVA FCT.
 - **[Sep. 2026]** Organized INForum 2026 @ Faculdade de Ciências e Tecnologia, Universidade Nova de Lisboa
 - **[Jul. 2026]** Presented at Correct-by-construction distributed systems and Decentralised Applications: from blockchain to swarms (CbC-DS) @ FLoC 2026
-- **[May. 2026]** Presented our paper [*Systematic API Testing Through Model Checking and Executable Contracts*](https://arxiv.org/abs/2604.08633) @ ICST 2026, Daejeon, South Korea.
+- **[May. 2026]** Presented our paper [*Systematic API Testing Through Model Checking and Executable Contracts*](https://ieeexplore.ieee.org/abstract/document/11600549) @ ICST 2026, Daejeon, South Korea.
 - **[Apr. 2026]** Student Volunteer @ Annual Programming Competition TopasLX 26, NOVA FCT.
 - **[Apr. 2026]** Attended the TLA+ Community Event Co-located with ETAPS 2026 @ Torino - Italy.
 - **[Mar. 2026]** Started a position as a Teaching Assistant of the *Design and Analysis of Algorithms* course @ NOVA FCT.
