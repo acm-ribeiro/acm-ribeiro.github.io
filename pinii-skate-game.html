@@ -589,7 +589,7 @@ function startTrick(){
 }
 function curSpeed(){
   const L = LEVELS[S.level], prog = Math.min(1, dist/L.target);
-  return speed * (1 + prog*0.5) * (1 - 0.10*fat()) * (1 + 0.45*drunk()); // a big belly slows him only a little, and being drunk makes the world rush by
+  return speed * (1 + prog*0.5) * (1 - 0.10*fat()) * (1 + 0.25*drunk()); // a big belly slows him only a little, and being drunk makes the world rush by
 }
 // height of the ramp surface under x (0 when there is none)
 function rampH(x){
